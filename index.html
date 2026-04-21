@@ -1,53 +1,170 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>My Music</title>
-  <style>
-    body {
-      background:#0d0d0d;
-      color:white;
-      font-family:sans-serif;
-      display:flex;
-      justify-content:center;
-    }
-    .wrap {
-      width:400px;
-      margin-top:60px;
-    }
-    .player {
-      background:#1a1a1a;
-      padding:20px;
-      border-radius:12px;
-      text-align:center;
-    }
-    .track {
-      padding:12px;
-      border-bottom:1px solid #333;
-      cursor:pointer;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Midnight Sun: Never Ending Edition</title>
+
+<style>
+body {
+  margin: 0;
+  background: #0b0b0b;
+  color: white;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  width: 420px;
+  padding-top: 60px;
+}
+
+.header {
+  font-size: 22px;
+  margin-bottom: 30px;
+  opacity: 0.8;
+}
+
+.player {
+  background: #161616;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.cover {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.title {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.artist {
+  font-size: 13px;
+  opacity: 0.6;
+  margin-bottom: 15px;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 15px 0;
+}
+
+button {
+  background: #222;
+  border: none;
+  color: white;
+  font-size: 16px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #333;
+}
+
+.progress {
+  width: 100%;
+  height: 4px;
+  background: #333;
+  border-radius: 10px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: white;
+}
+
+.tracklist {
+  margin-top: 25px;
+}
+
+.track {
+  padding: 14px;
+  border-bottom: 1px solid #222;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+
+.track:hover {
+  background: #1a1a1a;
+}
+</style>
 </head>
 
 <body>
-<div class="wrap">
 
-<h2>My Music</h2>
+<div class="container">
+
+<div class="header">My Music</div>
 
 <div class="player">
-  <div id="title">Select a song</div>
-  <audio id="audio" controls></audio>
+  <img id="cover" class="cover" src="https://i.postimg.cc/XNh0Wq1z/92dce51eb502431ca094dd2eb502c77a.jpg">
+
+  <div id="title" class="title">Select a song</div>
+  <div class="artist">Your Name</div>
+
+  <div class="controls">
+    <button onclick="togglePlay()">⏯</button>
+  </div>
+
+  <div class="progress">
+    <div id="progressBar" class="progress-bar"></div>
+  </div>
+
+  <audio id="audio"></audio>
 </div>
 
-<div class="track" onclick="playSong('https://filebin.net/thxeng7wp621hkqi/01%20Midnight%20Sun.mp3E','Warrior')">Warrior</div>
+<div class="tracklist">
+
+  <div class="track" onclick="playSong('https://cdn.discordapp.com/attachments/1213257729754529794/1496235051300421713/01_Midnight_Sun.mp3?ex=69e924fa&is=69e7d37a&hm=8d08740d7208d361969abd62a19abbb3a5c2294cc650d44422a0ed20e157bbab&','Midnight Sun')">
+    <span>Midnight Sun</span>
+  </div>
+
+  <div class="track" onclick="playSong('https://cdn.discordapp.com/attachments/1213257729754529794/1496235051611062382/02_DJ_Made_Me_Do.wav?ex=69e924fb&is=69e7d37b&hm=d4488ababe56f46758d755759680064ba322e4d58ee971f50d039b475c3d72e4&','DJ Made Me Do')">
+    <span>DJ Made Me Do </span>
+  </div>
+
+</div>
 
 </div>
 
 <script>
-function playSong(link, title){
-  document.getElementById("audio").src = link;
-  document.getElementById("audio").play();
-  document.getElementById("title").innerText = title;
+const audio = document.getElementById("audio");
+const title = document.getElementById("title");
+const progressBar = document.getElementById("progressBar");
+
+function playSong(src, name) {
+  audio.src = src;
+  title.innerText = name;
+  audio.play();
 }
+
+function togglePlay() {
+  if (audio.paused) {
+    audio.play();
+  } else {
+    audio.pause();
+  }
+}
+
+audio.ontimeupdate = () => {
+  if (audio.duration) {
+    let progress = (audio.currentTime / audio.duration) * 100;
+    progressBar.style.width = progress + "%";
+  }
+};
 </script>
 
 </body>
